@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pastel E-Commerce Checkout</title>
+
+<style>
+/* ---------- GLOBAL ---------- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fce4ec, #e3f2fd);
+    min-height: 100vh;
+}
+
+h2 {
+    text-align: center;
+    color: #444;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* ---------- PROGRESS BAR ---------- */
+.progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.progress div {
+    width: 100%;
+    height: 6px;
+    margin: 0 3px;
+    background: #f8bbd0;
+    border-radius: 5px;
+}
+
+.progress .active {
+    background: #81d4fa;
+}
+
+/* ---------- FORM ---------- */
+.step {
+    display: none;
+}
+
+.step.active {
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #ba68c8;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #ab47bc;
+}
+
+button:disabled {
+    background: #ccc;
+}
+
+/* ---------- SUMMARY ---------- */
+.summary {
+    background: #f3e5f5;
+    padding: 15px;
+    border-radius: 10px;
+    line-height: 1.6;
+}
+
+/* ---------- CONFIRM PAGE ---------- */
+.confirm {
+    text-align: center;
+    background: #e8f5e9;
+    padding: 30px;
+    border-radius: 15px;
+    
+}
+
+.confirm h2 {
+    color: #2e7d32;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Progress Bar -->
+    <div class="progress">
+        <div id="p1" class="active"></div>
+        <div id="p2"></div>
+        <div id="p3"></div>
+        <div id="p4"></div>
+    </div>
+
+    <!-- STEP 1: SHIPPING -->
+    <div class="step active">
+        <h2>Shipping Information</h2>
+
+        <label>Name</label>
+        <input id="name" type="text">
+
+        <label>Country</label>
+        <select id="country" style="width: 100%;">
+            <option value="">Select</option>
+            <option value="IN">India</option>
+            <option value="US">USA</option>
+        </select>
+
+        <label>Phone Number</label>
+        <input id="phone" type="text" placeholder="India: 10 digits">
+
+        <label>Postal Code</label>
+        <input id="postal" type="text">
+
+        <div class="buttons">
+            <span></span>
+            <button onclick="nextStep(1)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 2: BILLING -->
+    <div class="step">
+        <h2>Billing Details</h2>
+
+        <label>Billing Address</label>
+        <input id="address" type="text">
+
+        <div class="buttons">
+            <button onclick="prevStep(0)">Back</button>
+            <button onclick="nextStep(2)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 3: PAYMENT -->
+    <div class="step">
+        <h2>Payment Method</h2>
+
+        <label>Card Number</label>
+        <input id="card" type="text" placeholder="4111111111111111">
+
+        <label>Expiry Date</label>
+        <input id="expiry" type="month">
+
+        <label>CVV</label>
+        <input id="cvv" type="password">
+
+        <div class="buttons">
+            <button onclick="prevStep(1)">Back</button>
+            <button onclick="nextStep(3)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 4: SUMMARY -->
+    <div class="step">
+        <h2>Order Summary</h2>
+
+        <div class="summary" id="summary"></div>
+
+        <div class="buttons">
+            <button onclick="prevStep(2)">Back</button>
+            <button onclick="confirmOrder()">Confirm Order</button>
+        </div>
+    </div>
+
+    <!-- STEP 5: CONFIRM -->
+    <div class="step">
+        <div class="confirm">
+            <h2>🎉 Order Confirmed!</h2>
+            <p>Your order has been successfully placed.</p>
+            <p>Thank you for shopping with us 💖</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let steps = document.querySelectorAll(".step");
+let progress = document.querySelectorAll(".progress div");
+
+function showStep(i) {
+    steps.forEach(s => s.classList.remove("active"));
+    steps[i].classList.add("active");
+
+    progress.forEach(p => p.classList.remove("active"));
+    for (let j = 0; j <= i && j < progress.length; j++) {
+        progress[j].classList.add("active");
+    }
+}
+
+function nextStep(step) {
+    if (validate(step)) {
+        showStep(step + 1);
+        if (step === 3) fillSummary();
+    }
+}
+
+function prevStep(step) {
+    showStep(step);
+}
+
+/* ---------- VALIDATION ---------- */
+function validate(step) {
+    if (step === 1) {
+        let country = countryEl.value;
+        let phone = phoneEl.value;
+        let postal = postalEl.value;
+
+        if (nameEl.value === "" || country === "") return alert("Fill all fields"), false;
+
+        if (country === "IN" && !/^[6]\d{5}$/.test(postal)) return alert("Invalid Indian PIN"), false;
+        if (country === "US" && !/^\d{5}$/.test(postal)) return alert("Invalid US ZIP"), false;
+
+        if (country === "IN" && !/^\d{10}$/.test(phone)) return alert("Invalid Indian phone"), false;
+        if (country === "US" && !/^\d{10}$/.test(phone)) return alert("Invalid US phone"), false;
+    }
+
+    if (step === 2 && addressEl.value === "") {
+        alert("Enter billing address");
+        return false;
+    }
+
+    if (step === 3) {
+        if (!luhn(cardEl.value)) return alert("Invalid card number"), false;
+
+        let exp = new Date(expiryEl.value);
+        let now = new Date();
+        if (exp <= now) return alert("Card expired"), false;
+
+        if (!/^\d{3}$/.test(cvvEl.value)) return alert("Invalid CVV"), false;
+    }
+
+    return true;
+}
+
+/* ---------- LUHN ---------- */
+function luhn(num) {
+    let sum = 0;
+    let alt = false;
+    for (let i = num.length - 1; i >= 0; i--) {
+        let n = parseInt(num[i]);
+        if (alt) {
+            n *= 2;
+            if (n > 9) n -= 9;
+        }
+        sum += n;
+        alt = !alt;
+    }
+    return sum % 10 === 0;
+}
+
+/* ---------- SUMMARY ---------- */
+function fillSummary() {
+    summary.innerHTML = `
+        <b>Name:</b> ${nameEl.value}<br>
+        <b>Country:</b> ${countryEl.value}<br>
+        <b>Phone:</b> ${phoneEl.value}<br>
+        <b>Address:</b> ${addressEl.value}<br>
+        <b>Payment:</b> Card Ending ****${cardEl.value.slice(-4)}
+    `;
+}
+
+function confirmOrder() {
+    showStep(4);
+}
+
+/* ---------- ELEMENTS ---------- */
+let nameEl = document.getElementById("name");
+let countryEl = document.getElementById("country");
+let phoneEl = document.getElementById("phone");
+let postalEl = document.getElementById("postal");
+let addressEl = document.getElementById("address");
+let cardEl = document.getElementById("card");
+let expiryEl = document.getElementById("expiry");
+let cvvEl = document.getElementById("cvv");
+let summary = document.getElementById("summary");
+</script>
+
+</body>
+</html>
