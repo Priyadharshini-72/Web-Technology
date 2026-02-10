@@ -5,245 +5,232 @@
 <title>E-Commerce Checkout</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #fce4ec, #e3f2fd);
-    min-height: 100vh;
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#fce4ec,#e3f2fd);
 }
-
-h2 {
-    text-align: center;
-    color: #444;
+.container{
+max-width:500px;
+margin:30px auto;
+background:#fff;
+padding:25px;
+border-radius:15px;
 }
-
-.container {
-    width: 90%;
-    max-width: 500px;
-    margin: 30px auto;
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.progress{
+display:flex;
+margin-bottom:20px;
 }
-
-/* Progress */
-.progress {
-    display: flex;
-    margin-bottom: 20px;
+.progress div{
+flex:1;
+height:6px;
+margin:0 3px;
+background:#f8bbd0;
 }
-.progress div {
-    flex: 1;
-    height: 6px;
-    margin: 0 3px;
-    background: #f8bbd0;
-    border-radius: 5px;
+.progress .active{
+background:#81d4fa;
 }
-.progress .active {
-    background: #81d4fa;
+.step{display:none;}
+.step.active{display:block;}
+input,select{
+width:100%;
+padding:10px;
+margin-bottom:15px;
 }
-
-/* Steps */
-.step { display: none; }
-.step.active { display: block; }
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+button{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:#ba68c8;
+color:#fff;
 }
-
-label {
-    font-weight: bold;
+.summary{
+background:#f3e5f5;
+padding:15px;
+border-radius:10px;
 }
-
-.buttons {
-    display: flex;
-    justify-content: space-between;
-}
-
-button {
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    background: #ba68c8;
-    color: #fff;
-    cursor: pointer;
-}
-
-.summary {
-    background: #f3e5f5;
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.confirm {
-    text-align: center;
-    background: #e8f5e9;
-    padding: 25px;
-    border-radius: 15px;
+.confirm{
+text-align:center;
+background:#e8f5e9;
+padding:25px;
+border-radius:15px;
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
 <div class="progress">
-    <div class="active"></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-
-<!-- STEP 0 -->
-<div class="step active">
-    <h2>Shipping Information</h2>
-
-    <label>Name</label>
-    <input id="name">
-
-    <label>Country</label>
-    <select id="country">
-        <option value="">Select</option>
-        <option value="IN">India</option>
-        <option value="US">USA</option>
-    </select>
-
-    <label>Phone</label>
-    <input id="phone">
-
-    <label>Postal Code</label>
-    <input id="postal">
-
-    <div class="buttons">
-        <span></span>
-        <button onclick="nextStep(0)">Next</button>
-    </div>
+<div class="active"></div><div></div><div></div><div></div>
 </div>
 
 <!-- STEP 1 -->
-<div class="step">
-    <h2>Billing Details</h2>
-
-    <label>Address</label>
-    <input id="address">
-
-    <div class="buttons">
-        <button onclick="prevStep(0)">Back</button>
-        <button onclick="nextStep(1)">Next</button>
-    </div>
+<div class="step active">
+<h2>Shipping Information</h2>
+<input id="name" placeholder="Name">
+<select id="country">
+<option value="">Select Country</option>
+<option value="IN">India</option>
+<option value="US">USA</option>
+</select>
+<input id="phone" placeholder="Phone Number">
+<input id="postal" placeholder="Postal Code">
+<button onclick="nextStep(0)">Next</button>
 </div>
 
 <!-- STEP 2 -->
 <div class="step">
-    <h2>Payment</h2>
-
-    <label>Card Number</label>
-    <input id="card">
-
-    <label>Expiry</label>
-    <input id="expiry" type="month">
-
-    <label>CVV</label>
-    <input id="cvv" type="password">
-
-    <div class="buttons">
-        <button onclick="prevStep(1)">Back</button>
-        <button onclick="nextStep(2)">Next</button>
-    </div>
+<h2>Billing Details</h2>
+<input id="address" placeholder="Billing Address">
+<button onclick="prevStep(0)">Back</button>
+<button onclick="nextStep(1)">Next</button>
 </div>
 
-<!-- STEP 3 SUMMARY -->
+<!-- STEP 3 -->
 <div class="step">
-    <h2>Order Summary</h2>
-    <div class="summary" id="summary"></div>
-
-    <div class="buttons">
-        <button onclick="prevStep(2)">Back</button>
-        <button onclick="confirmOrder()">Confirm</button>
-    </div>
+<h2>Payment Method</h2>
+<input id="card" placeholder="Card Number">
+<input id="expiry" type="month">
+<input id="cvv" placeholder="CVV">
+<button onclick="prevStep(1)">Back</button>
+<button onclick="nextStep(2)">Next</button>
 </div>
 
-<!-- STEP 4 CONFIRM -->
+<!-- STEP 4 -->
 <div class="step">
-    <div class="confirm">
-        <h2>🎉 Order Confirmed</h2>
+<h2>Order Summary</h2>
+<div class="summary" id="summary"></div>
+<button onclick="prevStep(2)">Back</button>
+<button onclick="confirmOrder()">Confirm</button>
+</div>
 
-        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" width="120">
-
-        <div class="summary" id="finalSummary"></div>
-
-        <p>Thank you for shopping 💖</p>
-    </div>
+<!-- STEP 5 -->
+<div class="step">
+<div class="confirm">
+<h2>?? Order Confirmed</h2>
+<div class="summary" id="finalSummary"></div>
+<p>Thank you for shopping ??</p>
+</div>
 </div>
 
 </div>
 
 <script>
-let steps = document.querySelectorAll(".step");
-let progress = document.querySelectorAll(".progress div");
+let steps=document.querySelectorAll(".step");
+let progress=document.querySelectorAll(".progress div");
 
-function showStep(i) {
-    steps.forEach(s => s.classList.remove("active"));
-    steps[i].classList.add("active");
-
-    progress.forEach(p => p.classList.remove("active"));
-    for (let j = 0; j <= i && j < progress.length; j++) {
-        progress[j].classList.add("active");
-    }
+function showStep(i){
+steps.forEach(s=>s.classList.remove("active"));
+steps[i].classList.add("active");
+progress.forEach(p=>p.classList.remove("active"));
+for(let j=0;j<=i && j<progress.length;j++)
+progress[j].classList.add("active");
 }
 
-function nextStep(step) {
-    if (validate(step)) {
-        if (step === 2) fillSummary();   // ✅ FIXED HERE
-        showStep(step + 1);
-    }
+function nextStep(i){
+if(validate(i)){
+if(i===2) fillSummary();
+showStep(i+1);
+}
+}
+function prevStep(i){ showStep(i); }
+
+/* ---------- VALIDATION ---------- */
+function validate(i){
+
+/* SHIPPING */
+if(i===0){
+if(name.value==""||country.value==""||phone.value==""||postal.value==""){
+alert("Fill all shipping fields");
+return false;
 }
 
-function prevStep(step) {
-    showStep(step);
+if(country.value==="IN" && !/^[1-9][0-9]{5}$/.test(postal.value)){
+alert("Invalid Indian postal code");
+return false;
 }
 
-function fillSummary() {
-    summary.innerHTML = `
-        <b>Name:</b> ${nameEl.value}<br>
-        <b>Country:</b> ${countryEl.value}<br>
-        <b>Phone:</b> ${phoneEl.value}<br>
-        <b>Address:</b> ${addressEl.value}<br>
-        <b>Card:</b> ****${cardEl.value.slice(-4)}
-    `;
+if(country.value==="US" && !/^\d{5}$/.test(postal.value)){
+alert("Invalid US postal code");
+return false;
 }
 
-function confirmOrder() {
-    finalSummary.innerHTML = summary.innerHTML;
-    showStep(4);
+if(!/^\d{10}$/.test(phone.value)){
+alert("Invalid phone number");
+return false;
+}
 }
 
-function validate(step) {
-    if (step === 0 && (nameEl.value === "" || countryEl.value === "")) {
-        alert("Fill all fields");
-        return false;
-    }
-    if (step === 1 && addressEl.value === "") {
-        alert("Enter address");
-        return false;
-    }
-    return true;
+/* BILLING */
+if(i===1 && address.value===""){
+alert("Enter billing address");
+return false;
 }
 
-let nameEl = document.getElementById("name");
-let countryEl = document.getElementById("country");
-let phoneEl = document.getElementById("phone");
-let postalEl = document.getElementById("postal");
-let addressEl = document.getElementById("address");
-let cardEl = document.getElementById("card");
-let expiryEl = document.getElementById("expiry");
-let cvvEl = document.getElementById("cvv");
-let summary = document.getElementById("summary");
-let finalSummary = document.getElementById("finalSummary");
+/* PAYMENT */
+if(i===2){
+if(!luhn(card.value)){
+alert("Invalid card number");
+return false;
+}
+
+let today=new Date();
+let exp=new Date(expiry.value);
+if(exp<=today){
+alert("Card expired");
+return false;
+}
+
+if(!/^\d{3}$/.test(cvv.value)){
+alert("Invalid CVV");
+return false;
+}
+}
+
+return true;
+}
+
+/* LUHN ALGORITHM */
+function luhn(num){
+let sum=0,alt=false;
+for(let i=num.length-1;i>=0;i--){
+let n=parseInt(num[i]);
+if(alt){ n*=2; if(n>9)n-=9; }
+sum+=n;
+alt=!alt;
+}
+return sum%10===0;
+}
+
+/* SUMMARY */
+function fillSummary(){
+summary.innerHTML=`
+<b>Name:</b> ${name.value}<br>
+<b>Country:</b> ${country.value}<br>
+<b>Phone:</b> ${phone.value}<br>
+<b>Address:</b> ${address.value}<br>
+<b>Card:</b> ****${card.value.slice(-4)}
+`;
+}
+
+function confirmOrder(){
+finalSummary.innerHTML=summary.innerHTML;
+showStep(4);
+}
+
+/* ELEMENTS */
+let name=document.getElementById("name");
+let country=document.getElementById("country");
+let phone=document.getElementById("phone");
+let postal=document.getElementById("postal");
+let address=document.getElementById("address");
+let card=document.getElementById("card");
+let expiry=document.getElementById("expiry");
+let cvv=document.getElementById("cvv");
+let summary=document.getElementById("summary");
+let finalSummary=document.getElementById("finalSummary");
 </script>
 
 </body>
