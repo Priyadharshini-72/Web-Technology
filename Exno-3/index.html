@@ -1,249 +1,386 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>E-Commerce Checkout</title>
+<title>EduCAD Checkout</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #fce4ec, #e3f2fd);
-    min-height: 100vh;
+
+body{
+font-family: Arial, sans-serif;
+background:#ffe6f0;
+margin:0;
 }
 
-h2 {
-    text-align: center;
-    color: #444;
+/* PROFESSIONAL HEADER */
+header{
+background:#ff66b2;
+color:white;
+padding:10px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:14px;
 }
 
-.container {
-    width: 90%;
-    max-width: 500px;
-    margin: 30px auto;
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+header h2{
+margin:0;
+font-size:20px;
 }
 
-/* Progress */
-.progress {
-    display: flex;
-    margin-bottom: 20px;
-}
-.progress div {
-    flex: 1;
-    height: 6px;
-    margin: 0 3px;
-    background: #f8bbd0;
-    border-radius: 5px;
-}
-.progress .active {
-    background: #81d4fa;
+header nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+font-weight:bold;
 }
 
-/* Steps */
-.step { display: none; }
-.step.active { display: block; }
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+/* MAIN CONTAINER */
+.container{
+width:65%;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
+min-height:450px;
 }
 
-label {
-    font-weight: bold;
+/* GRID PRODUCT LAYOUT */
+.products{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-bottom:20px;
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
+.card{
+border:1px solid #eee;
+padding:15px;
+border-radius:10px;
+text-align:center;
+background:#fff;
 }
 
-button {
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    background: #ba68c8;
-    color: #fff;
-    cursor: pointer;
+.card h4{
+margin:5px 0;
 }
 
-.summary {
-    background: #f3e5f5;
-    padding: 15px;
-    border-radius: 10px;
+input,select{
+width:100%;
+padding:7px;
+margin:5px 0;
 }
 
-.confirm {
-    text-align: center;
-    background: #e8f5e9;
-    padding: 25px;
-    border-radius: 15px;
+button{
+background:#ff66b2;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:5px;
+cursor:pointer;
 }
+
+/* CENTER BUTTON */
+.center-btn{
+text-align:center;
+margin-top:10px;
+}
+
+.section{display:none;}
+
+.progress{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+}
+
+.step{
+width:24%;
+text-align:center;
+padding:6px;
+background:#ffd6e8;
+border-radius:6px;
+font-size:13px;
+}
+
+.active{
+background:#ff66b2;
+color:white;
+}
+
+.summary{
+background:#fff0f5;
+padding:12px;
+border-radius:8px;
+}
+
+.confirm{
+text-align:center;
+padding:30px;
+font-size:20px;
+color:#ff1493;
+}
+
+.radio-group{
+display:flex;
+gap:20px;
+margin:10px 0;
+}
+
 </style>
 </head>
 
 <body>
+
+<header>
+<h2>Educart</h2>
+<nav>
+<a href="#">Home</a>
+<a href="#">Sign In</a>
+</nav>
+</header>
+
 <div class="container">
 
 <div class="progress">
-    <div class="active"></div>
-    <div></div>
-    <div></div>
-    <div></div>
+<div class="step active" id="s1">Products</div>
+<div class="step" id="s2">Shipping</div>
+<div class="step" id="s3">Payment</div>
+<div class="step" id="s4">Summary</div>
 </div>
 
-<!-- STEP 0 -->
-<div class="step active">
-    <h2>Shipping Information</h2>
+<!-- PRODUCT PAGE -->
+<div class="section" id="productPage" style="display:block">
 
-    <label>Name</label>
-    <input id="name">
+<div class="products">
 
-    <label>Country</label>
-    <select id="country">
-        <option value="">Select</option>
-        <option value="IN">India</option>
-        <option value="US">USA</option>
-    </select>
-
-    <label>Phone</label>
-    <input id="phone">
-
-    <label>Postal Code</label>
-    <input id="postal">
-
-    <div class="buttons">
-        <span></span>
-        <button onclick="nextStep(0)">Next</button>
-    </div>
+<div class="card">
+<h4>Pencil Pack</h4>
+<p>₹20</p>
+<input type="number" id="qty1" value="0" min="0">
 </div>
 
-<!-- STEP 1 -->
-<div class="step">
-    <h2>Billing Details</h2>
-
-    <label>Address</label>
-    <input id="address">
-
-    <div class="buttons">
-        <button onclick="prevStep(0)">Back</button>
-        <button onclick="nextStep(1)">Next</button>
-    </div>
+<div class="card">
+<h4>Notebook 100 Pages</h4>
+<p>₹150</p>
+<input type="number" id="qty2" value="0" min="0">
 </div>
 
-<!-- STEP 2 -->
-<div class="step">
-    <h2>Payment</h2>
-
-    <label>Card Number</label>
-    <input id="card">
-
-    <label>Expiry</label>
-    <input id="expiry" type="month">
-
-    <label>CVV</label>
-    <input id="cvv" type="password">
-
-    <div class="buttons">
-        <button onclick="prevStep(1)">Back</button>
-        <button onclick="nextStep(2)">Next</button>
-    </div>
+<div class="card">
+<h4>Pen Pack</h4>
+<p>₹50</p>
+<input type="number" id="qty3" value="0" min="0">
 </div>
 
-<!-- STEP 3 SUMMARY -->
-<div class="step">
-    <h2>Order Summary</h2>
-    <div class="summary" id="summary"></div>
-
-    <div class="buttons">
-        <button onclick="prevStep(2)">Back</button>
-        <button onclick="confirmOrder()">Confirm</button>
-    </div>
+<div class="card">
+<h4>Eraser Set</h4>
+<p>₹30</p>
+<input type="number" id="qty4" value="0" min="0">
 </div>
 
-<!-- STEP 4 CONFIRM -->
-<div class="step">
-    <div class="confirm">
-        <h2>🎉 Order Confirmed</h2>
+<div class="card">
+<h4>Geometry Box</h4>
+<p>₹120</p>
+<input type="number" id="qty5" value="0" min="0">
+</div>
 
-        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" width="120">
+<div class="card">
+<h4>Highlighter Pack</h4>
+<p>₹80</p>
+<input type="number" id="qty6" value="0" min="0">
+</div>
 
-        <div class="summary" id="finalSummary"></div>
+</div>
 
-        <p>Thank you for shopping 💖</p>
-    </div>
+<div class="center-btn">
+<button onclick="addToCart()">Proceed to Shipping</button>
+</div>
+
+</div>
+
+<!-- SHIPPING -->
+<div class="section" id="shippingPage">
+
+<h3>Shipping Information</h3>
+
+<input type="text" id="name" placeholder="Full Name">
+<select id="country">
+<option value="">Select Country</option>
+<option value="India">India</option>
+<option value="US">US</option>
+</select>
+<input type="text" id="phone" placeholder="Phone Number">
+<input type="text" id="pincode" placeholder="Postal Code">
+<input type="text" id="address" placeholder="Full Address">
+
+<button onclick="validateShipping()">Next</button>
+
+</div>
+
+<!-- PAYMENT -->
+<div class="section" id="paymentPage">
+
+<h3>Payment Method</h3>
+
+<div class="radio-group">
+<label><input type="radio" name="pay" value="cod" onclick="toggleCard()"> Cash on Delivery</label>
+<label><input type="radio" name="pay" value="card" onclick="toggleCard()"> Card</label>
+</div>
+
+<div id="cardDetails" style="display:none">
+<input type="text" id="cardNumber" placeholder="Card Number">
+<input type="month" id="expiry">
+</div>
+
+<button onclick="validatePayment()">Next</button>
+
+</div>
+
+<!-- SUMMARY -->
+<div class="section" id="summaryPage">
+<h3>Order Summary</h3>
+<div class="summary" id="summaryBox"></div>
+<button onclick="confirmOrder()">Place Order</button>
+</div>
+
+<!-- CONFIRM -->
+<div class="section" id="confirmPage">
+<div class="confirm">
+🎉 Order Confirmed! <br><br>
+Thank you for your order! <br>
+Your items will be delivered soon 💖
+</div>
 </div>
 
 </div>
 
 <script>
-let steps = document.querySelectorAll(".step");
-let progress = document.querySelectorAll(".progress div");
 
-function showStep(i) {
-    steps.forEach(s => s.classList.remove("active"));
-    steps[i].classList.add("active");
+let cart=[];
 
-    progress.forEach(p => p.classList.remove("active"));
-    for (let j = 0; j <= i && j < progress.length; j++) {
-        progress[j].classList.add("active");
-    }
+function showStep(id,step){
+document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
+document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+document.getElementById("s"+step).classList.add("active");
 }
 
-function nextStep(step) {
-    if (validate(step)) {
-        if (step === 2) fillSummary();   // ✅ FIXED HERE
-        showStep(step + 1);
-    }
+function addToCart(){
+
+cart=[];
+
+let products=[
+{id:"qty1",name:"Pencil Pack",price:20},
+{id:"qty2",name:"Notebook 100 Pages",price:150},
+{id:"qty3",name:"Pen Pack",price:50},
+{id:"qty4",name:"Eraser Set",price:30},
+{id:"qty5",name:"Geometry Box",price:120},
+{id:"qty6",name:"Highlighter Pack",price:80}
+];
+
+products.forEach(p=>{
+let qty=parseInt(document.getElementById(p.id).value);
+if(qty>0){
+cart.push({name:p.name,price:p.price,qty:qty});
+}
+});
+
+if(cart.length===0){
+alert("Select at least one product");
+return;
 }
 
-function prevStep(step) {
-    showStep(step);
+showStep("shippingPage",2);
 }
 
-function fillSummary() {
-    summary.innerHTML = `
-        <b>Name:</b> ${nameEl.value}<br>
-        <b>Country:</b> ${countryEl.value}<br>
-        <b>Phone:</b> ${phoneEl.value}<br>
-        <b>Address:</b> ${addressEl.value}<br>
-        <b>Card:</b> ****${cardEl.value.slice(-4)}
-    `;
+function validateShipping(){
+
+let name=document.getElementById("name").value.trim();
+let country=document.getElementById("country").value;
+let phone=document.getElementById("phone").value.trim();
+let pin=document.getElementById("pincode").value.trim();
+let address=document.getElementById("address").value.trim();
+
+if(name.length<3){alert("Enter valid name");return;}
+if(country===""){alert("Select country");return;}
+
+if(country==="India" && !/^[6-9][0-9]{9}$/.test(phone)){
+alert("Invalid Indian phone number");return;
 }
 
-function confirmOrder() {
-    finalSummary.innerHTML = summary.innerHTML;
-    showStep(4);
+if(country==="US" && !/^[0-9]{10}$/.test(phone)){
+alert("Invalid US phone number");return;
 }
 
-function validate(step) {
-    if (step === 0 && (nameEl.value === "" || countryEl.value === "")) {
-        alert("Fill all fields");
-        return false;
-    }
-    if (step === 1 && addressEl.value === "") {
-        alert("Enter address");
-        return false;
-    }
-    return true;
+if(country==="India" && !/^[1-9][0-9]{5}$/.test(pin)){
+alert("Invalid Indian PIN");return;
 }
 
-let nameEl = document.getElementById("name");
-let countryEl = document.getElementById("country");
-let phoneEl = document.getElementById("phone");
-let postalEl = document.getElementById("postal");
-let addressEl = document.getElementById("address");
-let cardEl = document.getElementById("card");
-let expiryEl = document.getElementById("expiry");
-let cvvEl = document.getElementById("cvv");
-let summary = document.getElementById("summary");
-let finalSummary = document.getElementById("finalSummary");
+if(country==="US" && !/^[0-9]{5}$/.test(pin)){
+alert("Invalid US ZIP");return;
+}
+
+if(address.length<5){alert("Enter valid address");return;}
+
+showStep("paymentPage",3);
+}
+
+function toggleCard(){
+let method=document.querySelector('input[name="pay"]:checked').value;
+document.getElementById("cardDetails").style.display=
+(method==="card")?"block":"none";
+}
+
+function validatePayment(){
+
+let method=document.querySelector('input[name="pay"]:checked');
+if(!method){alert("Select payment method");return;}
+
+if(method.value==="card"){
+let card=document.getElementById("cardNumber").value;
+let expiry=document.getElementById("expiry").value;
+
+if(!luhnCheck(card)){alert("Invalid card number");return;}
+
+let today=new Date();
+let exp=new Date(expiry);
+if(exp<today){alert("Card expired");return;}
+}
+
+updateSummary();
+showStep("summaryPage",4);
+}
+
+function luhnCheck(num){
+let arr=(num+'').split('').reverse().map(x=>parseInt(x));
+let sum=0;
+for(let i=0;i<arr.length;i++){
+if(i%2!==0){
+let dbl=arr[i]*2;
+sum+=dbl>9?dbl-9:dbl;
+}else sum+=arr[i];
+}
+return sum%10===0;
+}
+
+function updateSummary(){
+let html="";
+let total=0;
+
+cart.forEach(item=>{
+let itemTotal=item.price*item.qty;
+total+=itemTotal;
+html+=`<b>${item.name}</b> (x${item.qty}) - ₹${itemTotal}<br>`;
+});
+
+html+=`<hr><b>Grand Total: ₹${total}</b>`;
+document.getElementById("summaryBox").innerHTML=html;
+}
+
+function confirmOrder(){
+showStep("confirmPage",4);
+}
+
 </script>
 
 </body>
